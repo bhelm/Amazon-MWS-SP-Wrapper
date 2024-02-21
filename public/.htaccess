@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Check if query string contains the Action parameter
+RewriteCond %{QUERY_STRING} Action=([^&]+) [NC]
+RewriteRule .* /%1.php? [L]

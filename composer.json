@@ -1,0 +1,31 @@
+{
+  "name": "amazon-sp-api/amazon-sp-api",
+  "description": "A PHP project to access Amazon SP API",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "amazon-php/sp-api-sdk": "^5.0.8",
+    "nyholm/psr7": "^1.8",
+    "kriswallsmith/buzz": "^1.2",
+    "psr/http-message": "^1.0",
+    "monolog/monolog": "^3.4",
+    "ext-pdo": "*",
+    "ext-curl": "*",
+    "ext-simplexml": "*",
+    "ext-zlib": "*",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "AmazonMWSSPWrapper\\AmazonSP\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Bernd Helm",
+      "email": "bernd.helm@helmundwalter.de"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

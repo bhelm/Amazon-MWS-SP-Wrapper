@@ -1,0 +1,6 @@
+vendor
+xmldebug
+tmp
+logs
+.env
+.idea

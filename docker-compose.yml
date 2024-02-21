@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  php-apache:
+    image: thecodingmachine/php:8.2-v4-apache
+    container_name: php-apache-container
+    restart: always
+    environment:
+      APACHE_DOCUMENT_ROOT: "/var/www/html/public"
+      PHP_INI_MEMORY_LIMIT: 2048M
+      #PHP_EXTENSION_XDEBUG: '1'               # Enable Xdebug
+      #PHP_INI_XDEBUG__REMOTE_AUTOSTART: 1
+      #PHP_INI_XDEBUG__START_WITH_REQUEST: 1
+    volumes:
+    - .:/var/www/html/
+    ports:
+    - "127.0.0.1:8800:80"
