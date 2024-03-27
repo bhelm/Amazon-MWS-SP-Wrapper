@@ -50,11 +50,10 @@ foreach($response->getResponses() as $resp) {
                         <FulfillmentChannel>'.($offer->getIsFulfilledByAmazon() ? 'Amazon' : 'Merchant').'</FulfillmentChannel>
                         <ShipsDomestically>'.(($offer->getShipsFrom() && $offer->getShipsFrom()->getCountry() ?? 'DE') == 'DE' ? 'True' : 'False').'</ShipsDomestically>
                         <ShippingTime>
-                            <Max>'.((int)round(($offer->getShippingTime()->getMinimumHours() ?? 0) / 24, 0))
-                        .'-'.((int)round(($offer->getShippingTime()->getMaximumHours() ?? 0) / 24, 0)).' days</Max>
+                            <Max>'.mapShippingTime((int)round(($offer->getShippingTime()->getMaximumHours() ?? 0) / 24, 0)).'</Max>
                         </ShippingTime>
-                        <SellerPositiveFeedbackRating>'.$offer->getSellerFeedbackRating()
-                    ->getSellerPositiveFeedbackRating().'%'
+                        <SellerPositiveFeedbackRating>'
+                        .mapRating($offer->getSellerFeedbackRating()->getSellerPositiveFeedbackRating())
                       .'</SellerPositiveFeedbackRating>
                     </Qualifiers>
                     <SellerFeedbackCount>'.$offer->getSellerFeedbackRating()->getFeedbackCount().'</SellerFeedbackCount>
@@ -109,3 +108,54 @@ echo '<?xml version="1.0"?>
         <RequestId>'.uniqid().'</RequestId>
     </ResponseMetadata>
 </GetLowestOfferListingsForSKUResponse>'.PHP_EOL;
+
+
+function mapRating($value) {
+    $ranges = [
+        'Just Launched' => [0, 0],
+        'Less than 70%' => [1, 69],
+        '70-79%' => [70, 79],
+        '80-89%' => [80, 89],
+        '90-94%' => [90, 94],
+        '95-97%' => [95, 97],
+        '98-100%' => [98, 100],
+    ];
+
+    $closestRange = '';
+    $closestDiff = PHP_INT_MAX;
+
+    foreach ($ranges as $rangeKey => $range) {
+        if ($value >= $range[0] && $value <= $range[1]) {
+            // If the value is exactly within a range, return it immediately
+            return $rangeKey;
+        } else {
+            // Check if this range is closer to the value than what we have found before
+            $diff = min(abs($value - $range[0]), abs($value - $range[1]));
+            if ($diff < $closestDiff) {
+                $closestDiff = $diff;
+                $closestRange = $rangeKey;
+            }
+        }
+    }
+
+    return $closestRange;
+}
+
+function mapShippingTime($value) {
+    $ranges = [
+        '0-2 days' => [0, 2],
+        '3-7 days' => [3, 7],
+        '8-13 days' => [8, 13],
+        '14 or more days' => [14, PHP_INT_MAX], // Assuming no upper limit for "14 or more days"
+    ];
+
+    foreach ($ranges as $rangeKey => $range) {
+        if ($value >= $range[0] && $value <= $range[1]) {
+            // If the value is exactly within a range, return it immediately
+            return $rangeKey;
+        }
+    }
+
+    // In case the value doesn't fit any range, though it should always fit the "14 or more days" range
+    return 'Value does not fit any range';
+}
