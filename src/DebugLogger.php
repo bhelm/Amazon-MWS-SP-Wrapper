@@ -6,6 +6,10 @@ class DebugLogger {
     private $logFile;
 
     public function __construct() {
+        SdkConfig::getSdk(); //initializes the dotenv
+        if($_ENV['DEBUG_LOG'] != 1) {
+            return;
+        }
 
         @mkdir("../logs", 0777, true);
         // Create a unique filename using a combination of date-time and a random string
@@ -22,10 +26,16 @@ class DebugLogger {
     }
 
     public function log($message) {
+        if($_ENV['DEBUG_LOG'] != 1) {
+            return;
+        }
         file_put_contents($this->logFile, $message . PHP_EOL, FILE_APPEND);
     }
 
     public function __destruct() {
+        if($_ENV['DEBUG_LOG'] != 1) {
+            return;
+        }
         // Log the script's output
         $output = ob_get_contents();
         if ($output) {

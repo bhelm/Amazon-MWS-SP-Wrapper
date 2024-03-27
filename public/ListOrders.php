@@ -8,11 +8,12 @@ use AmazonMWSSPWrapper\AmazonSP\RequestParams;
 use AmazonMWSSPWrapper\AmazonSP\SdkConfig;
 
 require __DIR__ . '/../vendor/autoload.php';
-$logger = new DebugLogger();
+
 if(!isset($mode)) {
     $mode = "ListOrders";
 }
 $sdk = SdkConfig::getSdk();
+$logger = new DebugLogger();
 $accessToken = SdkConfig::getAccessToken();
 
 $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);

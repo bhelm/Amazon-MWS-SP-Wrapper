@@ -8,14 +8,13 @@ use AmazonMWSSPWrapper\AmazonSP\DebugLogger;
 use AmazonMWSSPWrapper\AmazonSP\SdkConfig;
 
 require __DIR__ . '/../vendor/autoload.php';
+$sdk = SdkConfig::getSdk();
 $logger = new DebugLogger();
 
 // Parse URL and extract FeedType
 $queryString = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
 parse_str($queryString, $queryParams);
 
-
-$sdk = SdkConfig::getSdk();
 $accessToken = SdkConfig::getAccessToken();
 
 $postData = file_get_contents('php://input');

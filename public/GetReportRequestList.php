@@ -10,8 +10,8 @@ use AmazonMWSSPWrapper\AmazonSP\RequestParams;
 use AmazonMWSSPWrapper\AmazonSP\SdkConfig;
 
 require __DIR__ . '/../vendor/autoload.php';
-$logger = new DebugLogger();
 $sdk = SdkConfig::getSdk();
+$logger = new DebugLogger();
 $accessToken = SdkConfig::getAccessToken();
 
 $marketplaceIds = RequestParams::getMarketplaces();

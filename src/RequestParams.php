@@ -57,6 +57,10 @@ class RequestParams
             $marketplaceIds = [$queryParams['Marketplace']];
         }
 
+        if(empty($marketplaceIds) && isset($queryParams['MarketplaceId'])) {
+            $marketplaceIds = [$queryParams['MarketplaceId']];
+        }
+
         if(empty($marketplaceIds)) {
             $marketplaceIds = [Marketplace::DE()->id()];
         }

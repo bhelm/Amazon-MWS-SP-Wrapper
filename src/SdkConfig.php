@@ -16,11 +16,16 @@ class SdkConfig {
     private static ?AccessToken $accessToken = null;
 
     private static function init() {
+        if(self::$sdk !== null) {
+            return;
+        }
         $factory = new Psr17Factory();
         $client = new Curl($factory);
 
+        @mkdir("../logs", 0777, true);
         $logger = new Logger('name');
-        $logger->pushHandler(new StreamHandler(__DIR__ . '/sp-api-php.log', Logger::DEBUG));
+        // set to DEBUG if you want to see the requests to the api
+        $logger->pushHandler(new StreamHandler(__DIR__ . '/../logs/sp-api-php.log', Logger::ERROR));
         $dotenv = Dotenv::createImmutable(__DIR__.'/../');
         $dotenv->load();
 
@@ -32,7 +37,7 @@ class SdkConfig {
                 $_ENV['ACCESS_KEY'],
                 $_ENV['SECRET_KEY']
             ),
-            new NullLogger());
+            $logger);
     }
 
     public static function getSdk() {
