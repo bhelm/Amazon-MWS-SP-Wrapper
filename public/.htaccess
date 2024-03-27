@@ -2,4 +2,13 @@ RewriteEngine On
 
 # Check if query string contains the Action parameter
 RewriteCond %{QUERY_STRING} Action=([^&]+) [NC]
+
+# Check if the corresponding PHP file exists. Note: %{DOCUMENT_ROOT} may need to be adjusted depending on your server setup
+RewriteCond %{DOCUMENT_ROOT}/%1.php !-f
+
+# If the PHP file doesn't exist, redirect to error.php (stop processing further rules)
+RewriteRule .* /notfound.php? [L]
+
+# Otherwise, rewrite to the PHP file (this rule is only reached if the file exists)
+RewriteCond %{QUERY_STRING} Action=([^&]+) [NC]
 RewriteRule .* /%1.php? [L]

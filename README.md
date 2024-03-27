@@ -25,3 +25,8 @@ And if you are lucky, you should see a xml response.
 ## How it Works
 The integration process is straightforward: replace the hostname and protocol of your MWS API calls with http://localhost:8800/. An Apache server configured at this address intercepts requests, identifying the Action= parameter to reroute the request to a corresponding PHP file named after the action. This mechanism allows for a transparent translation between APIs. The available actions can be explored within the public directory.
 
+## Debugging
+- To enable xdebug, comment in the related lines from the docker-compose.yml.
+- the env variable DEBUG_LOG enables logging if each request with full response in the logs directory
+- If a action is called that is not implemented, that is logged to logs/notfound.log
+- Its possible to enable logging of the sp api in the SdkConfig.php by setting it to debug.
