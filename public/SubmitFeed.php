@@ -65,7 +65,6 @@ if($httpStatusCode != 200) { // Assuming 200 is the expected status code
 }
 
 try {
-    echo "sending feed ".$feedDocument->getFeedDocumentId().PHP_EOL;
     $createFeedSpec = new CreateFeedSpecification([
             'feed_type' => $feedType,
             'marketplace_ids' => [Marketplace::DE()->id()],
