@@ -38,6 +38,9 @@ foreach($feedSubmissionIds as $feedSubmissionId) {
     }
 }
 
+header("x-mws-request-id: ".uniqid());
+header("x-mws-response-context: default");
+header("x-mws-timestamp: ".time());
 
 echo '<?xml version="1.0"?>
 <GetFeedSubmissionListResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
