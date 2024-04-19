@@ -19,8 +19,8 @@ if($feed->getProcessingStatus() == 'DONE') {
     $document = $sdk->feeds()->getFeedDocument($accessToken, Regions::EUROPE, $documentId);
     $content = file_get_contents($document->getUrl());
     //$content = mb_convert_encoding($content, 'ISO-8859-1', 'UTF-8');
-    header("x-mws-request-id: ".uniqid());
-    header("x-mws-response-context: default");
-    header("x-mws-timestamp: ".time());
+    header("X-Mws-Request-Id: " . uniqid());
+    header("X-Mws-Response-Context: default");
+    header("X-Mws-Timestamp: " . date(DATE_ISO8601));
     echo $content;
 }
