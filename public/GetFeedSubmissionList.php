@@ -37,12 +37,7 @@ foreach($feedSubmissionIds as $feedSubmissionId) {
         echo "could not fetch feed: ".$e->getMessage().PHP_EOL;
     }
 }
-
-header("X-Mws-Request-Id: " . uniqid());
-header("X-Mws-Response-Context: default");
-header("X-Mws-Timestamp: " . date(DATE_ISO8601));
-
-echo '<?xml version="1.0"?>
+$content = '<?xml version="1.0"?>
 <GetFeedSubmissionListResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
   <GetFeedSubmissionListResult>
     <HasNext>false</HasNext>
@@ -52,3 +47,10 @@ echo '<?xml version="1.0"?>
     <RequestId>'.uniqid().'</RequestId>
   </ResponseMetadata>
 </GetFeedSubmissionListResponse>'.PHP_EOL;
+
+header("X-Mws-Request-Id: " . uniqid());
+header("X-Amz-Request-Id: " . uniqid());
+header("X-Mws-Response-Context: default");
+header("X-Mws-Timestamp: " . date(DATE_ISO8601));
+header("Content-MD5: " . base64_encode(md5($content, true)));
+echo $content;

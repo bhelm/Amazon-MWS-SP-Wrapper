@@ -73,11 +73,7 @@ try {
     );
 
     $feedResponse = $sdk->feeds()->createFeed($accessToken, Regions::EUROPE, $createFeedSpec);
-    header("X-Mws-Request-Id: " . uniqid());
-    header("X-Mws-Response-Context: default");
-    header("X-Mws-Timestamp: " . date(DATE_ISO8601));
-    //echo 'Feed ID: ' . $feedResponse->getFeedId();
-    echo'<?xml version="1.0"?>
+    $content = '<?xml version="1.0"?>
 <SubmitFeedResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
 <SubmitFeedResult>
     <FeedSubmissionInfo>
@@ -88,9 +84,16 @@ try {
     </FeedSubmissionInfo>
 </SubmitFeedResult>
 <ResponseMetadata>
-    <RequestId>823dce00-bbf2-438d-b45b-4aa6e6908f48</RequestId>
+    <RequestId>'.uniqid().'</RequestId>
 </ResponseMetadata>
 </SubmitFeedResponse>';
+
+    header("X-Mws-Request-Id: " . uniqid());
+    header("X-Amz-Request-Id: " . uniqid());
+    header("X-Mws-Response-Context: default");
+    header("X-Mws-Timestamp: " . date(DATE_ISO8601));
+    header("Content-MD5: " . base64_encode(md5($content, true)));
+    echo $content;
 } catch (Exception $e) {
     exit('Failed to create feed: ' . $e->getMessage());
 }
