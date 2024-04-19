@@ -73,6 +73,9 @@ try {
     );
 
     $feedResponse = $sdk->feeds()->createFeed($accessToken, Regions::EUROPE, $createFeedSpec);
+    header("x-mws-request-id: ".uniqid());
+    header("x-mws-response-context: default");
+    header("x-mws-timestamp: ".time());
     //echo 'Feed ID: ' . $feedResponse->getFeedId();
     echo'<?xml version="1.0"?>
 <SubmitFeedResponse xmlns="http://mws.amazonaws.com/doc/2009-01-01/">
