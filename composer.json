@@ -4,7 +4,7 @@
   "type": "project",
   "require": {
     "php": "^8.2",
-    "amazon-php/sp-api-sdk": "^5.0.9",
+    "amazon-php/sp-api-sdk": "^6.0.1",
     "nyholm/psr7": "^1.8",
     "kriswallsmith/buzz": "^1.2",
     "psr/http-message": "^1.0",
